@@ -1,0 +1,15 @@
+# Foundry build artifacts
+out/
+*.solc/
+cache/
+
+# Dependencies
+lib/forge-std/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
