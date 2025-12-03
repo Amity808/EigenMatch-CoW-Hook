@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package eigenmatch.intentmatcher.v1;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/amity-76/eigenmatch/intentmatcher/api/v1;apiv1";
+
+message Intent {
+  string intent_id = 1;
+  string trader = 2;
+  string pair = 3; // e.g. "ETH/USDC"
+  string side = 4; // BUY or SELL
+  string amount = 5; // decimal string to avoid float
+  string limit_price = 6;
+  uint64 expiry = 7;
+  bytes signature = 8; // EIP-712 signature
+  uint64 nonce = 9;
+}
+
+message SubmitIntentRequest {
+  Intent intent = 1;
+  bytes operator_signature = 2; // optional AVS operator attest
+}
+
+message SubmitIntentResponse {
+  string status = 1; // ACCEPTED / REJECTED
+  string reason = 2;
+  uint64 epoch = 3;
+}
+
+message SettlementBundle {
+  uint64 epoch = 1;
+  bytes bundle_id = 2;
+  bytes docker_digest = 3;
+  bytes tee_measurement = 4;
+  bytes attestation_signature = 5;
+  repeated MatchGroup match_groups = 6;
+  bytes replay_salt = 7;
+}
+
+message MatchGroup {
+  repeated string intent_ids = 1;
+  string clearing_price = 2;
+  string matched_amount = 3;
+  uint32 fees_saved_bps = 4;
+}
+
+message GetBundleRequest {
+  uint64 epoch = 1;
+}
+
+message GetBundleResponse {
+  SettlementBundle bundle = 1;
+}
+
+message AckBundleRequest {
+  bytes bundle_id = 1;
+  string watcher_id = 2;
+}
+
+message AckBundleResponse {
+  bool ok = 1;
+}
+
+message HealthResponse {
+  string status = 1;
+  uint64 epoch = 2;
+}
+
+service IntentMatcher {
+  rpc SubmitIntent(SubmitIntentRequest) returns (SubmitIntentResponse);
+  rpc GetBundle(GetBundleRequest) returns (GetBundleResponse);
+  rpc AckBundle(AckBundleRequest) returns (AckBundleResponse);
+  rpc HealthCheck(google.protobuf.Empty) returns (HealthResponse);
+}
+
