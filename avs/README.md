@@ -11,11 +11,11 @@ This document captures how we will adapt EigenLayer’s DevKit template to build
 
 1. **Clone the DevKit template**
    ```bash
-   git clone https://github.com/eigenlayer-devkit/devkit-template eigen-devkit
-   cd eigen-devkit
+   git submodule update --init --recursive avs/devkit
+   cd avs/devkit
    ./install-devkit.sh  # per static/devkit.md instructions
    ```
-   The template includes Go CLI commands, operator keystores, devnet scripts, and CI workflows for lint/tests.
+   The template now lives inside this repository as a git submodule pointing to [`Layr-Labs/devkit-cli`](https://github.com/Layr-Labs/devkit-cli). It includes Go CLI commands, operator keystores, devnet scripts, and CI workflows for lint/tests.
 
 2. **Create an AVS context**
    ```bash
