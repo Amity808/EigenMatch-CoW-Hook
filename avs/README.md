@@ -19,9 +19,7 @@ This document captures how we will adapt EigenLayer’s DevKit template to build
 
 2. **Create an AVS context**
    ```bash
-   ./bin/devkit context create eigenmatch \
-     --template avs \
-     --chain-id sepolia
+   make -C avs context CONTEXT=eigenmatch
    ```
    The context files (under `config/contexts`) define registry addresses, quorum configs, and telemetry endpoints.
 
@@ -31,7 +29,8 @@ This document captures how we will adapt EigenLayer’s DevKit template to build
    - **Slash hooks**: update `config/templates.yaml` to include rules for late/malformed batches; reuse DevKit’s `keystore_embeds` for local dev slashing tests.
 
 4. **Devnet smoke test**
-   - `make devnet` to spin up operator nodes, funding utility contracts, and local Anvil.
+   - `make -C avs devnet-start` to spin up operator nodes, funding utility contracts, and local Anvil.
+   - `make -C avs devnet-stop` when finished.
    - Feed synthetic intents (from `scripts/intent_feeder.go`) and verify they reach EigenCompute within the 5 s window.
    - Confirm generated bundles propagate to watchers and ultimately to the hook on the devnet PoolManager.
 

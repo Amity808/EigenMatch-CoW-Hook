@@ -24,7 +24,12 @@ func main() {
 		DockerDigest:   os.Getenv("MATCHER_DOCKER_DIGEST"),
 		TEEMeasurement: os.Getenv("MATCHER_TEE_MEASUREMENT"),
 	}
-	m := matcher.New(cfg)
+	var opts []matcher.Option
+	if eigenAI := os.Getenv("EIGENAI_ENDPOINT"); eigenAI != "" {
+		opts = append(opts, matcher.WithScorer(matcher.NewEigenAIScorer(eigenAI)))
+	}
+
+	m := matcher.New(cfg, opts...)
 	m.Start(ctx)
 
 	addr := getEnv("API_PORT_PUBLIC", ":8080")

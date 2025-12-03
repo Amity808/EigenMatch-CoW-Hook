@@ -16,6 +16,7 @@ func main() {
 		AllowedDigests:      toSet(os.Getenv("ALLOWED_DOCKER_DIGESTS")),
 		AllowedMeasurements: toSet(os.Getenv("ALLOWED_TEE_MEASUREMENTS")),
 		PollInterval:        time.Duration(getEnvInt("POLL_INTERVAL_SECONDS", 5)) * time.Second,
+		ExecutorEndpoint:    os.Getenv("EXECUTOR_ENDPOINT"),
 	}
 
 	if len(cfg.AllowedDigests) == 0 {

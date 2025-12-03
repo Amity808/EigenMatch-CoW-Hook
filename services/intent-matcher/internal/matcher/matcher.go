@@ -61,16 +61,22 @@ type Matcher struct {
 	bundleMu     sync.RWMutex
 	latestBundle SettlementBundle
 	started      bool
+
+	scorer Scorer
 }
 
-func New(cfg Config) *Matcher {
+func New(cfg Config, opts ...Option) *Matcher {
 	if cfg.EpochSeconds == 0 {
 		cfg.EpochSeconds = 5
 	}
-	return &Matcher{
+	m := &Matcher{
 		cfg:     cfg,
 		intents: make(map[string][]*Intent),
 	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
 }
 
 func (m *Matcher) Start(ctx context.Context) {
@@ -111,6 +117,12 @@ func (m *Matcher) SubmitIntent(intent Intent) error {
 	side := intent.Side
 	if side != "BUY" && side != "SELL" {
 		return ErrInvalidIntent
+	}
+
+	if m.scorer != nil {
+		if err := m.scorer.Score(context.Background(), &intent); err != nil {
+			return err
+		}
 	}
 
 	m.mu.Lock()

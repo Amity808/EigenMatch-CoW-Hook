@@ -17,6 +17,7 @@ This service monitors EigenCompute settlement bundles, validates their attestati
 | `ALLOWED_DOCKER_DIGESTS` | Comma-separated list of EigenCompute docker digests the hook trusts. |
 | `ALLOWED_TEE_MEASUREMENTS` | Comma-separated list of TEE measurement hashes. |
 | `POLL_INTERVAL_SECONDS` | How often to poll the matcher for new bundles (default 5s). |
+| `EXECUTOR_ENDPOINT` | Optional HTTP endpoint for the settlement executor relay. When set, the watcher POSTs each verified bundle to this URL. |
 
 Secrets (API tokens, etc.) should follow EigenCompute secret-handling rules: keep sensitive values without `_PUBLIC` suffix so they remain encrypted inside the TEE if deployed there.
 
@@ -26,5 +27,5 @@ cd services/watcher
 go run ./cmd/watcher
 ```
 
-The binary logs bundle verification status. Integration with the settlement executor and alerting pipelines will be added in subsequent milestones.
+The binary logs bundle verification status and (optionally) relays each verified bundle to the settlement executor via `EXECUTOR_ENDPOINT`.
 

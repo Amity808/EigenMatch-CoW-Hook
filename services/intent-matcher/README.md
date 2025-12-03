@@ -45,3 +45,7 @@ More endpoints (gRPC, watcher ACKs, metrics) will be added as we integrate with 
 - Secrets & keys guidance (`context/eigencloud-docs/docs/eigencompute/concepts/keys-overview.md`, `privacy-overview.md`).
 - Deployment/billing steps (`context/eigencloud-docs/docs/eigencompute/get-started/quickstart.md`, `billing.md`).
 
+## Optional EigenAI Scoring
+
+Set `EIGENAI_ENDPOINT` to route each submitted intent through an EigenAI scorer (per `context/eigencloud-docs/docs/eigenai/**`). The scorer can approve/reject intents or adjust limit prices before they enter the deterministic matching queue, while keeping sensitive inputs private inside the EigenCompute enclave.
+

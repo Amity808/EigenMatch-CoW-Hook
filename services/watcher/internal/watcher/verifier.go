@@ -20,12 +20,14 @@ type Config struct {
 	AllowedDigests      map[string]struct{}
 	AllowedMeasurements map[string]struct{}
 	PollInterval        time.Duration
+	ExecutorEndpoint    string
 }
 
 type Verifier struct {
 	cfg        Config
 	client     *http.Client
 	lastBundle string
+	executor   *ExecutorClient
 }
 
 type bundleResponse struct {
@@ -45,10 +47,14 @@ func New(cfg Config) *Verifier {
 	if cfg.PollInterval == 0 {
 		cfg.PollInterval = 5 * time.Second
 	}
-	return &Verifier{
+	v := &Verifier{
 		cfg:    cfg,
 		client: &http.Client{Timeout: 5 * time.Second},
 	}
+	if cfg.ExecutorEndpoint != "" {
+		v.executor = NewExecutorClient(cfg.ExecutorEndpoint)
+	}
+	return v
 }
 
 func (v *Verifier) Run(stop <-chan struct{}) {
@@ -96,5 +102,11 @@ func (v *Verifier) checkOnce() error {
 
 	v.lastBundle = bundle.BundleID
 	log.Printf("[watcher] bundle verified: id=%s epoch=%d\n", bundle.BundleID, bundle.Epoch)
+
+	if v.executor != nil {
+		if err := v.executor.Submit(bundle); err != nil {
+			return fmt.Errorf("executor submit: %w", err)
+		}
+	}
 	return nil
 }
