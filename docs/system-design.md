@@ -121,6 +121,17 @@ All schemas must be serializable deterministically (sorted arrays, canonical enc
 - **Dashboards**: Grafana panels for KPIs; EigenCompute verification dashboard links embedded.  
 - **Runbooks**: TEE key rotation, hook upgrade steps, EigenCompute redeploy (new digest publish + address allowlist), Uniswap pool parameter adjustments, emergency pause procedures.  
 - **Rate Limits & Sequencing**: Watchers enforce max settlements per block, throttle residual swap submissions, and maintain multi-sig approval for resume after pause.
+- **Watcher responsibilities**:
+  - Validate EigenCompute bundle attestation (docker digest, measurement) against hook allowlist before broadcasting.
+  - Enforce quorum (`MIN_WATCHER_ACKS`) and replay window (reject duplicate salts/epochs).
+  - Surface real-time alerts when a bundle fails verification or misses the 5 s epoch deadline.
+  - Generate bundle metadata (bundleId, epoch, fee stats) that feeds into the shared telemetry pipeline.
+- **Telemetry architecture**:
+  - EigenCompute matcher exposes Prometheus metrics (`/metrics` on non-public port) aggregated by a dedicated monitoring instance. Per EigenCompute privacy model, only `_PUBLIC` metrics endpoints are exposed; sensitive metrics remain private within the TEE (see `context/eigencloud-docs/docs/eigencompute/concepts/privacy-overview.md`).
+  - Watchers emit structured events (JSON over gRPC or REST) to a log collector; key fields include bundleId, validation result, attestation digest, and submission tx hash.
+  - Settlement executor / hook contracts emit events tracked via on-chain indexers (e.g., subgraph or log consumer) to correlate matched volume to attested bundles.
+  - Unified Grafana dashboard with panels for match ratio, fee savings, watcher quorum status, executor gas usage, and EigenCompute health endpoints.
+  - Alerting rules (PagerDuty/Slack) for: missing bundles for >2 epochs, attestation mismatches, hook pause activation, watcher quorum not met, and EigenCompute attestation changes.
 
 ## 10. Outstanding Questions
 1. Which EIP-712 domain separator should be used for intent signatures to avoid replay across networks?  
