@@ -17,6 +17,16 @@ This service receives signed intents from EigenLayer AVS operators, runs determi
 | Storage | Bundle metadata persisted to Postgres/SQLite for auditing; raw payload stays in EigenCompute enclave storage. |
 | APIs | Watchers fetch bundles via HTTPS (mutual TLS) and acknowledge once quorum thresholds met. |
 
+## HTTP Endpoints
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST /intents` | Submit a signed intent (JSON payload mirrors `Intent` struct). |
+| `GET /bundles/latest` | Fetch the most recent settlement bundle emitted by the matcher. |
+| `GET /healthz` | Basic health probe exposing epoch timestamp. |
+
+More endpoints (gRPC, watcher ACKs, metrics) will be added as we integrate with EigenLayer AVS + watchers.
+
 ## Deployment workflow
 1. **Develop locally** with Docker Compose (`dev.docker-compose.yaml`). Keep deterministic tests and clippy/go vet in CI.
 2. **Package image**: push to OCI registry (e.g., GHCR) with reproducible builds.
