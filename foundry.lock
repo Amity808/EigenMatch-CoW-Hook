@@ -1,17 +1,20 @@
 {
+  "avs/devkit": {
+    "rev": "0ab234913b2ba3300ac5e889b64e790359a8a524"
+  },
+  "lib/forge-std": {
+    "tag": {
+      "name": "v1.12.0",
+      "rev": "7117c90c8cf6c68e5acce4f09a6b24715cea4de6"
+    }
+  },
+  "lib/hookmate": {
+    "rev": "33408fbc15e083eb0bc4205fa37cb6ba0a926f44"
+  },
   "lib/uniswap-hooks": {
     "tag": {
       "name": "v1.2.1",
       "rev": "acbd604c409a827f7f98c9517236da860c4fca1a"
     }
-  },
-  "lib/v4-core": {
-    "tag": {
-      "name": "v4.0.0",
-      "rev": "e50237c43811bd9b526eff40f26772152a42daba"
-    }
-  },
-  "lib/v4-periphery": {
-    "rev": "3779387e5d296f39df543d23524b050f89a62917"
   }
 }

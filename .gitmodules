@@ -8,3 +8,6 @@
 [submodule "avs/devkit"]
 	path = avs/devkit
 	url = https://github.com/Layr-Labs/devkit-cli
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
