@@ -22,6 +22,7 @@ This document captures how we will adapt EigenLayer’s DevKit template to build
    make -C avs context CONTEXT=eigenmatch
    ```
    The context files (under `config/contexts`) define registry addresses, quorum configs, and telemetry endpoints.
+   > **Heads up:** Every `devkit avs …` command must run from the generated AVS project (`avs/eigenmatch-avs`). Running inside the CLI submodule (`avs/devkit`) lacks the `.devkit/scripts/deployL1Contracts` helper and causes the “missing deployL1Contracts” failure. The root `Makefile` already wraps the CLI at the correct path and now hard-fails if the script is absent so we catch misconfigurations early.
 
 3. **Wire EigenMatch‑specific logic**
    - **Intent RPC**: add a `SubmitIntent` command (mirroring `services/intent-matcher/api/intent_matcher.proto`) inside `pkg/commands/avs.go`.
