@@ -239,7 +239,7 @@ func (b *SettlementBundle) computeID() string {
 }
 
 func randomSalt() string {
-	buf := make([]byte, 16)
+	buf := make([]byte, 32)
 	_, _ = rand.Read(buf)
 	return hex.EncodeToString(buf)
 }

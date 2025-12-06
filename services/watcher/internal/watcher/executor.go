@@ -20,10 +20,19 @@ func NewExecutorClient(endpoint string) *ExecutorClient {
 	}
 }
 
-func (c *ExecutorClient) Submit(bundle bundleResponse) error {
-	body, err := json.Marshal(bundle)
+type ExecutorPayload struct {
+	PoolID           string         `json:"pool_id"`
+	Bundle           bundleResponse `json:"bundle"`
+	WatcherAddress   string         `json:"watcher_address"`
+	Signature        string         `json:"signature"`
+	ChainID          uint64         `json:"chain_id"`
+	ExecutorContract string         `json:"executor_contract"`
+}
+
+func (c *ExecutorClient) Submit(payload ExecutorPayload) error {
+	body, err := json.Marshal(payload)
 	if err != nil {
-		return fmt.Errorf("marshal bundle: %w", err)
+		return fmt.Errorf("marshal payload: %w", err)
 	}
 
 	resp, err := c.client.Post(c.endpoint, "application/json", bytes.NewReader(body))

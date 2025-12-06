@@ -17,6 +17,10 @@ func main() {
 		AllowedMeasurements: toSet(os.Getenv("ALLOWED_TEE_MEASUREMENTS")),
 		PollInterval:        time.Duration(getEnvInt("POLL_INTERVAL_SECONDS", 5)) * time.Second,
 		ExecutorEndpoint:    os.Getenv("EXECUTOR_ENDPOINT"),
+		PoolID:              os.Getenv("POOL_ID"),
+		ExecutorContract:    os.Getenv("EXECUTOR_CONTRACT"),
+		ExecutorChainID:     getEnvUint64("EXECUTOR_CHAIN_ID"),
+		WatcherPrivateKey:   os.Getenv("WATCHER_PRIVATE_KEY"),
 	}
 
 	if len(cfg.AllowedDigests) == 0 {
@@ -26,7 +30,10 @@ func main() {
 		log.Fatal("ALLOWED_TEE_MEASUREMENTS must be set")
 	}
 
-	verifier := watcher.New(cfg)
+	verifier, err := watcher.New(cfg)
+	if err != nil {
+		log.Fatalf("failed to init watcher: %v", err)
+	}
 	log.Printf("[watcher] starting; matcher=%s interval=%s\n", cfg.MatcherEndpoint, cfg.PollInterval)
 
 	stop := make(chan struct{})
@@ -48,6 +55,15 @@ func getEnvInt(key string, def int) int {
 		}
 	}
 	return def
+}
+
+func getEnvUint64(key string) uint64 {
+	if v := os.Getenv(key); v != "" {
+		if parsed, err := strconv.ParseUint(v, 10, 64); err == nil {
+			return parsed
+		}
+	}
+	return 0
 }
 
 func toSet(csv string) map[string]struct{} {
