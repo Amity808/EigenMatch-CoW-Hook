@@ -71,3 +71,10 @@ The full operator → EigenCompute → watcher → executor → hook flow is
 documented in `docs/e2e-test-plan.md`. Run that checklist whenever you
 need to show the README architecture working in practice or before
 pushing major changes.
+
+## Hook test coverage roadmap
+
+`docs/hook-test-plan.md` tracks the 100 tests (unit, integration,
+invariant) we are building for `EigenMatchHook.sol`. Each test is tagged
+(`Uxx`, `Ixx`, `Fxx`) so commits and CI runs can report progress against
+the matrix.
