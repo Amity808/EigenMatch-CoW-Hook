@@ -64,3 +64,10 @@ Order Flow:
    - Without matching: 18 ETH through AMM = $108 in fees (0.3%)
    - With matching: 8 ETH matched (0 fees) + 2 ETH AMM ($12 fees)
    - Total saved: $96 (89% fee reduction!) 🎉
+
+## End-to-end validation
+
+The full operator → EigenCompute → watcher → executor → hook flow is
+documented in `docs/e2e-test-plan.md`. Run that checklist whenever you
+need to show the README architecture working in practice or before
+pushing major changes.
