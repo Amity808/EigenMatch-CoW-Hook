@@ -27,7 +27,7 @@ Secrets (API tokens, etc.) should follow EigenCompute secret-handling rules: kee
 
 ## Usage
 ```bash
-cd services/watcher
+cd avs/eigenmatch-avs/services/watcher
 go run ./cmd/watcher
 ```
 

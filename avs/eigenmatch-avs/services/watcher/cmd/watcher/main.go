@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Amity808/EigenMatch-CoW-Hook/services/watcher/internal/watcher"
+	"github.com/Amity808/EigenMatch-CoW-Hook/avs/eigenmatch-avs/services/watcher/internal/watcher"
 )
 
 func main() {

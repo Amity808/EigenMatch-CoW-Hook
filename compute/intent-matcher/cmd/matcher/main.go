@@ -12,7 +12,7 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	"github.com/Amity808/EigenMatch-CoW-Hook/services/intent-matcher/internal/matcher"
+	"github.com/Amity808/EigenMatch-CoW-Hook/compute/intent-matcher/internal/matcher"
 )
 
 func main() {

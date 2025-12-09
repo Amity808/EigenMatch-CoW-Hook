@@ -1,4 +1,4 @@
-module github.com/Amity808/EigenMatch-CoW-Hook/services/watcher
+module github.com/Amity808/EigenMatch-CoW-Hook/avs/eigenmatch-avs/services/watcher
 
 go 1.23.0
 

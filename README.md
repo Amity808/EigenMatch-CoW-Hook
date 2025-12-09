@@ -44,7 +44,7 @@ Order Flow:
    - Bob: Sell 5 ETH for USDC (limit: $1,995/ETH)
    - Carol: Buy 3 ETH for USDC (limit: $2,003/ETH)
    
-2. AVS operators forward intents to EigenCompute TEE (every 5 seconds)
+2. AVS operators forward intents to the EigenCompute TEE matcher (code in `compute/intent-matcher`, packaged per EigenCloud compute-app docs) every 5 seconds.
    
 3. TEE matching engine runs deterministically:
    - Alice wants +10 ETH, Bob wants -5 ETH, Carol wants +3 ETH

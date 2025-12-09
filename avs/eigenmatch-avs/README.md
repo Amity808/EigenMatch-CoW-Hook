@@ -14,7 +14,7 @@ The project originally came from the Hourglass template, but we have aligned it 
 ## Architecture snapshot
 
 1. **Intent submitters** send signed intents to EigenLayer restakers.
-2. **EigenCompute TEEs** deterministically match intents and emit a `SettlementBundle` with hardware attestation.
+2. **EigenCompute TEEs** deterministically match intents and emit a `SettlementBundle` with hardware attestation. The matching app is managed separately under `compute/intent-matcher` following the EigenCloud compute-app format (EigenX manifest, `_PUBLIC` env rules, reproducible Docker image).
 3. **This AVS performer** receives the bundle as a task, checks docker digest / TEE measurement allowlists, validates replay protection, and (for now) logs the verified bundle so the settlement executor bridge can post it to `EigenMatchHook.sol`.
 4. **Uniswap v4 hook** consumes the final bundle, applies the settlement queue, and only routes net residual flow to the AMM.
 
@@ -67,7 +67,7 @@ The performer implements two phases:
 1. `ValidateTask` – decode the task payload into a `SettlementBundleTask`, check docker digest and TEE measurement allowlists (`ALLOWED_DOCKER_DIGESTS`, `ALLOWED_TEE_MEASUREMENTS`), ensure the bundle is still fresh (`maxDelay` env), enforce replay protection using the `replaySalt`, and verify at least one `match_group` exists with ≥2 intents before we hand anything to the executor bridge.
 2. `HandleTask` – fetch the latest bundle hash from `MATCHER_ENDPOINT`, confirm it matches the payload byte-for-byte, collect PER metrics, and return a JSON payload (`bundle_id` + `bundle_hash`) the Hourglass Aggregator can sign and forward.
 
-This mirrors the watcher implementation already present in `services/watcher`. Future work will replace the logging stub with an HTTP bridge to the settlement executor so validated bundles reach `EigenMatchHook.processSettlementBundle`.
+This mirrors the watcher implementation already present in `services/watcher` (`avs/eigenmatch-avs/services/watcher`), which consumes bundles emitted by `compute/intent-matcher`.
 
 ### Smart contracts (`contracts/`)
 
