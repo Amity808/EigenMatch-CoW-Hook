@@ -64,16 +64,16 @@ Status legend: `[ ]` pending, `[~]` in progress, `[x]` implemented.
 
 1. `[ ] I01 – End-to-end: Watcher submits bundle signatures → executor verifies and calls hook, settlement consumed.`
 2. `[ ] I02 – Executor rejects digest when `EigenMatchDigestRegistry` revokes measurement; hook never sees bundle.`
-3. `[ ] I03 – Executor rejects insufficient watcher signatures, ensuring hook not called.`
-4. `[ ] I04 – Executor prevents duplicate watcher signatures.`
-5. `[ ] I05 – Executor records bundle replay protection so hook cannot be called twice even if watchers resend.`
+3. `[x] I03 – Executor rejects insufficient watcher signatures, ensuring hook not called.`
+4. `[x] I04 – Executor prevents duplicate watcher signatures.`
+5. `[x] I05 – Executor records bundle replay protection so hook cannot be called twice even if watchers resend.`
 6. `[ ] I06 – Hook’s `processSettlementBundle` reverts if executor misconfigures pool (integration with registry).`
 7. `[ ] I07 – Digest registry update propagates to watcher allowlist + executor/hook pipeline.`
-8. `[ ] I08 – Watcher signs bundle hash computed from canonical payload; executor verifies ECDSA and forwards.`
-9. `[ ] I09 – Watcher rejects bundle from matcher when docker digest not allowlisted.`
+8. `[x] I08 – Watcher signs bundle hash computed from canonical payload; executor verifies ECDSA and forwards.`
+9. `[x] I09 – Watcher rejects bundle from matcher when docker digest not allowlisted.`
 10. `[ ] I10 – Watcher rejects bundle when replay salt already seen locally.`
 11. `[ ] I11 – Watcher fails to submit when executor endpoint unreachable; verify retry/backoff.`
-12. `[ ] I12 – Watcher successfully sends HTTP payload to executor mock and handles 200 OK.`
+12. `[x] I12 – Watcher successfully sends HTTP payload to executor mock and handles 200 OK.`
 13. `[ ] I13 – Executor emits `SettlementForwarded` event consumed in tests.`
 14. `[ ] I14 – Hook integrates with actual `PoolManager` mock to confirm delta application before AMM swap.`
 15. `[ ] I15 – Hook with real `BeforeSwapDelta` ensures AMM receives reduced amount.`
