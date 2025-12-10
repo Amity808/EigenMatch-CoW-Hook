@@ -20,43 +20,43 @@ Status legend: `[ ]` pending, `[~]` in progress, `[x]` implemented.
 1. `[ ] U01 – Hook permissions match README expectations (only beforeSwap true).`
 2. `[ ] U02 – Constructor reverts when owner is zero address.`
 3. `[ ] U03 – Constructor reverts when settlement executor is zero.`
-4. `[ ] U04 – `setSettlementExecutor` only callable by owner.`
-5. `[ ] U05 – `setSettlementExecutor` rejects zero address.`
-6. `[ ] U06 – `enablePool` rejects `maxSettlementDelay == 0`.`
-7. `[ ] U07 – `enablePool` copies the digest allowlist without sharing storage.`
-8. `[ ] U08 – `enablePool` toggles `enabled` flag and is persisted.`
-9. `[ ] U09 – `getPoolConfig` returns a defensive copy (mutating result does not mutate storage).`
-10. `[ ] U10 – `getPendingSettlement` returns zero struct before any queueing.`
-11. `[ ] U11 – `processSettlementBundle` requires `msg.sender == settlementExecutor`.`
-12. `[ ] U12 – `processSettlementBundle` reverts if pool not enabled.`
-13. `[ ] U13 – `processSettlementBundle` reverts when `traderSettlements` array empty.`
-14. `[ ] U14 – `processSettlementBundle` marks bundle and replay salt as processed.`
-15. `[ ] U15 – `processSettlementBundle` reverts on duplicate `bundleId`.`
-16. `[ ] U16 – `processSettlementBundle` reverts on duplicate `replaySalt`.`
-17. `[ ] U17 – `processSettlementBundle` rejects docker digests not in allowlist.`
-18. `[ ] U18 – `processSettlementBundle` enforces `maxSettlementDelay`.`
-19. `[ ] U19 – `_queueSettlement` rejects zero trader address.`
-20. `[ ] U20 – `_queueSettlement` rejects expired instructions.`
-21. `[ ] U21 – `_queueSettlement` stores deltas + expiry + bundleId exactly.`
-22. `[ ] U22 – `beforeSwap` returns zero delta when pool disabled.`
-23. `[ ] U23 – `beforeSwap` returns zero delta when sender has no settlement.`
-24. `[ ] U24 – `beforeSwap` reverts with `PoolIsPaused` when pool paused.`
-25. `[ ] U25 – `beforeSwap` reverts with `SettlementExpired` when queued settlement expired.`
-26. `[ ] U26 – `beforeSwap` consumes settlement and deletes storage.`
+4. `[x] U04 – \`setSettlementExecutor\` only callable by owner.`
+5. `[x] U05 – \`setSettlementExecutor\` rejects zero address.`
+6. `[x] U06 – \`enablePool\` rejects \`maxSettlementDelay == 0\`.`
+7. `[x] U07 – \`enablePool\` copies the digest allowlist without sharing storage.`
+8. `[x] U08 – \`enablePool\` toggles \`enabled\` flag and is persisted.`
+9. `[x] U09 – \`getPoolConfig\` returns a defensive copy (mutating result does not mutate storage).`
+10. `[x] U10 – \`getPendingSettlement\` returns zero struct before any queueing.`
+11. `[x] U11 – \`processSettlementBundle\` requires \`msg.sender == settlementExecutor\`.`
+12. `[x] U12 – \`processSettlementBundle\` reverts if pool not enabled.`
+13. `[x] U13 – \`processSettlementBundle\` reverts when \`traderSettlements\` array empty.`
+14. `[x] U14 – \`processSettlementBundle\` marks bundle and replay salt as processed.`
+15. `[x] U15 – \`processSettlementBundle\` reverts on duplicate \`bundleId\`.`
+16. `[x] U16 – \`processSettlementBundle\` reverts on duplicate \`replaySalt\`.`
+17. `[x] U17 – \`processSettlementBundle\` rejects docker digests not in allowlist.`
+18. `[x] U18 – \`processSettlementBundle\` enforces \`maxSettlementDelay\`.`
+19. `[x] U19 – \`_queueSettlement\` rejects zero trader address.`
+20. `[x] U20 – \`_queueSettlement\` rejects expired instructions.`
+21. `[x] U21 – \`_queueSettlement\` stores deltas + expiry + bundleId exactly.`
+22. `[x] U22 – \`beforeSwap\` returns zero delta when pool disabled.`
+23. `[x] U23 – \`beforeSwap\` returns zero delta when sender has no settlement.`
+24. `[x] U24 – \`beforeSwap\` reverts with \`PoolIsPaused\` when pool paused.`
+25. `[x] U25 – \`beforeSwap\` reverts with \`SettlementExpired\` when queued settlement expired.`
+26. `[x] U26 – \`beforeSwap\` consumes settlement and deletes storage.`
 27. `[ ] U27 – `beforeSwap` emits `SettlementConsumed` with correct payload.`
-28. `[ ] U28 – Fee ledger accumulates matched volume + feeSaved correctly after each consumption.`
-29. `[ ] U29 – Multiple settlements for same trader overwrite pending delta but fee ledger only updates upon consumption.`
-30. `[ ] U30 – `processSettlementBundle` emits `BundleProcessed` totals for sums of fees and matched amounts.`
-31. `[ ] U31 – `processSettlementBundle` handles multiple traders with different deltas.`
-32. `[ ] U32 – `_absInt128` returns correct magnitude for positive + negative numbers.`
-33. `[ ] U33 – `_toInt128` reverts when value exceeds int128 bounds.`
-34. `[ ] U34 – `setPoolPaused` onlyOwner guard.`
-35. `[ ] U35 – `setPoolPaused` emits `PoolPaused`.`
-36. `[ ] U36 – `setSettlementExecutor` updates storage and subsequent bundles must be sent by the new address.`
-37. `[ ] U37 – `isBundleProcessed` reflects both bundleId and replayKey entries.`
-38. `[ ] U38 – Pending settlement retrieval returns last queued bundle info for each trader.`
-39. `[ ] U39 – `processSettlementBundle` rejects instructions whose expiry is already elapsed (covers `_queueSettlement`).`
-40. `[ ] U40 – `processSettlementBundle` allows multiple allowed digests and accepts any one of them.`
+28. `[x] U28 – Fee ledger accumulates matched volume + feeSaved correctly after each consumption.`
+29. `[x] U29 – Multiple settlements for same trader overwrite pending delta but fee ledger only updates upon consumption.`
+30. `[ ] U30 – \`processSettlementBundle\` emits \`BundleProcessed\` totals for sums of fees and matched amounts.`
+31. `[x] U31 – \`processSettlementBundle\` handles multiple traders with different deltas.`
+32. `[ ] U32 – \`_absInt128\` returns correct magnitude for positive + negative numbers.`
+33. `[x] U33 – \`_toInt128\` reverts when value exceeds int128 bounds.`
+34. `[x] U34 – \`setPoolPaused\` onlyOwner guard.`
+35. `[x] U35 – \`setPoolPaused\` emits \`PoolPaused\`.`
+36. `[x] U36 – \`setSettlementExecutor\` updates storage and subsequent bundles must be sent by the new address.`
+37. `[x] U37 – \`isBundleProcessed\` reflects both bundleId and replayKey entries.`
+38. `[x] U38 – Pending settlement retrieval returns last queued bundle info for each trader.`
+39. `[x] U39 – \`processSettlementBundle\` rejects instructions whose expiry is already elapsed (covers \`_queueSettlement\`).`
+40. `[x] U40 – \`processSettlementBundle\` allows multiple allowed digests and accepts any one of them.`
 
 ---
 
