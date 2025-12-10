@@ -1,8 +1,0 @@
-{
-  "label": "Contracts",
-  "position": 5,
-  "link": {
-    "type": "generated-index",
-    "description": "Details of contracts & events monitored in the subgraph"
-  }
-}
