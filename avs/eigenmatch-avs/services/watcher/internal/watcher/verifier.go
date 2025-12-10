@@ -20,6 +20,7 @@ import (
 var (
 	ErrDigestMismatch      = errors.New("docker digest not allowed")
 	ErrMeasurementMismatch = errors.New("tee measurement not allowed")
+	ErrReplaySaltSeen      = errors.New("replay salt already processed")
 )
 
 type Config struct {
@@ -42,6 +43,7 @@ type Verifier struct {
 	signer     *ecdsa.PrivateKey
 	watcher    common.Address
 	execAddr   common.Address
+	seenSalts  map[string]struct{}
 }
 
 type bundleResponse struct {
@@ -64,8 +66,9 @@ func New(cfg Config) (*Verifier, error) {
 		cfg.PollInterval = 5 * time.Second
 	}
 	v := &Verifier{
-		cfg:    cfg,
-		client: &http.Client{Timeout: 5 * time.Second},
+		cfg:       cfg,
+		client:    &http.Client{Timeout: 5 * time.Second},
+		seenSalts: make(map[string]struct{}),
 	}
 	if cfg.ExecutorEndpoint != "" {
 		if cfg.PoolID == "" {
@@ -130,6 +133,14 @@ func (v *Verifier) checkOnce() error {
 		return nil
 	}
 
+	replayKey := strings.ToLower(bundle.ReplaySalt)
+	if replayKey == "" {
+		return fmt.Errorf("bundle missing replay_salt")
+	}
+	if _, seen := v.seenSalts[replayKey]; seen {
+		return ErrReplaySaltSeen
+	}
+
 	if _, ok := v.cfg.AllowedDigests[strings.ToLower(bundle.DockerDigest)]; !ok {
 		return ErrDigestMismatch
 	}
@@ -138,6 +149,7 @@ func (v *Verifier) checkOnce() error {
 	}
 
 	v.lastBundle = bundle.BundleID
+	v.seenSalts[replayKey] = struct{}{}
 	log.Printf("[watcher] bundle verified: id=%s epoch=%d\n", bundle.BundleID, bundle.Epoch)
 
 	if v.executor != nil {

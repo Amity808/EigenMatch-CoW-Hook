@@ -110,3 +110,42 @@ func TestVerifierSubmitsToExecutor(t *testing.T) {
 		t.Fatalf("expected signature, got %s", received.Signature)
 	}
 }
+
+func TestVerifierRejectsReplaySaltSeen(t *testing.T) {
+	callCount := 0
+	matcher := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		callCount++
+		resp := bundleResponse{
+			BundleID:       "0x01",
+			DockerDigest:   "sha256:good",
+			TEEMeasurement: "tee",
+			ReplaySalt:     "0x02",
+			Status:         "ok",
+		}
+		if callCount > 1 {
+			resp.BundleID = "0x03"
+		}
+		json.NewEncoder(w).Encode(resp)
+	}))
+	defer matcher.Close()
+
+	verifier := &Verifier{
+		cfg: Config{
+			MatcherEndpoint:     matcher.URL,
+			AllowedDigests:      map[string]struct{}{"sha256:good": {}},
+			AllowedMeasurements: map[string]struct{}{"tee": {}},
+		},
+		client:    matcher.Client(),
+		seenSalts: make(map[string]struct{}),
+	}
+
+	if err := verifier.checkOnce(); err != nil {
+		t.Fatalf("first checkOnce failed: %v", err)
+	}
+	if err := verifier.checkOnce(); err != ErrReplaySaltSeen {
+		t.Fatalf("expected ErrReplaySaltSeen, got %v", err)
+	}
+	if callCount != 2 {
+		t.Fatalf("expected matcher called twice, got %d", callCount)
+	}
+}

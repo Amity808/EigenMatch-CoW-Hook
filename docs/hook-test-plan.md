@@ -71,7 +71,7 @@ Status legend: `[ ]` pending, `[~]` in progress, `[x]` implemented.
 7. `[ ] I07 – Digest registry update propagates to watcher allowlist + executor/hook pipeline.`
 8. `[x] I08 – Watcher signs bundle hash computed from canonical payload; executor verifies ECDSA and forwards.`
 9. `[x] I09 – Watcher rejects bundle from matcher when docker digest not allowlisted.`
-10. `[ ] I10 – Watcher rejects bundle when replay salt already seen locally.`
+10. `[x] I10 – Watcher rejects bundle when replay salt already seen locally.`
 11. `[ ] I11 – Watcher fails to submit when executor endpoint unreachable; verify retry/backoff.`
 12. `[x] I12 – Watcher successfully sends HTTP payload to executor mock and handles 200 OK.`
 13. `[ ] I13 – Executor emits `SettlementForwarded` event consumed in tests.`
