@@ -13,3 +13,4 @@ lib/forge-std/
 # Environment
 .env
 .env.local
+context/
