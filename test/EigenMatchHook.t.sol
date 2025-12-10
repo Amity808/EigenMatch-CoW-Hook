@@ -74,6 +74,34 @@ contract EigenMatchHookTest is Test {
         swapParams = SwapParams({zeroForOne: false, amountSpecified: 0, sqrtPriceLimitX96: 0});
     }
 
+    function testHookPermissionsOnlyBeforeSwap() public view {
+        Hooks.Permissions memory perms = hook.getHookPermissions();
+        assertTrue(perms.beforeSwap);
+        assertFalse(perms.beforeInitialize);
+        assertFalse(perms.afterInitialize);
+        assertFalse(perms.beforeAddLiquidity);
+        assertFalse(perms.afterAddLiquidity);
+        assertFalse(perms.beforeRemoveLiquidity);
+        assertFalse(perms.afterRemoveLiquidity);
+        assertFalse(perms.afterSwap);
+        assertFalse(perms.beforeDonate);
+        assertFalse(perms.afterDonate);
+        assertFalse(perms.beforeSwapReturnDelta);
+        assertFalse(perms.afterSwapReturnDelta);
+        assertFalse(perms.afterAddLiquidityReturnDelta);
+        assertFalse(perms.afterRemoveLiquidityReturnDelta);
+    }
+
+    function testConstructorRevertsZeroOwner() public {
+        vm.expectRevert();
+        new EigenMatchHookHarness(address(this), address(0));
+    }
+
+    function testConstructorRevertsZeroExecutor() public {
+        vm.expectRevert();
+        new EigenMatchHookHarness(address(0), address(this));
+    }
+
     function testBeforeSwapConsumesSettlement() public {
         bytes32 bundleId = keccak256("bundle-1");
 
@@ -82,6 +110,8 @@ contract EigenMatchHookTest is Test {
             _bundle(bundleId, allowedDigest, keccak256("salt-1"), uint64(block.timestamp)),
             _instr(trader, int256(1 ether), 0, 100, uint64(block.timestamp + 60))
         );
+        vm.expectEmit(true, true, true, true);
+        emit EigenMatchHook.SettlementConsumed(poolId, trader, bundleId, 1 ether, 100);
         hook.invokeBeforeSwap(trader, poolKey, swapParams, "");
 
         EigenMatchHook.FeeLedgerEntry memory entry = hook.getFeeLedger(trader);
@@ -199,9 +229,13 @@ contract EigenMatchHookTest is Test {
             expiry: uint64(block.timestamp + 100)
         });
 
+        bytes32 bundleId = keccak256("bundle-multi-inst");
+        uint64 epoch = uint64(block.timestamp);
+        vm.expectEmit(true, true, true, true);
+        emit EigenMatchHook.BundleProcessed(poolId, bundleId, epoch, 3, 30);
         hook.processSettlementBundle(
             poolId,
-            _bundle(keccak256("bundle-multi-inst"), allowedDigest, keccak256("salt-multi-inst"), uint64(block.timestamp)),
+            _bundle(bundleId, allowedDigest, keccak256("salt-multi-inst"), epoch),
             instructions
         );
 
@@ -442,6 +476,22 @@ contract EigenMatchHookTest is Test {
             _bundle(keccak256("bundle-overflow"), allowedDigest, keccak256("salt-overflow"), uint64(block.timestamp)),
             _instr(trader, overflowValue, 0, 0, uint64(block.timestamp + 10))
         );
+    }
+
+    function testSettlementMatchedVolumeUsesAbsValue() public {
+        bytes32 bundleId = keccak256("bundle-negative");
+        hook.processSettlementBundle(
+            poolId,
+            _bundle(bundleId, allowedDigest, keccak256("salt-negative"), uint64(block.timestamp)),
+            _instr(trader, int256(-5 ether), 0, 0, uint64(block.timestamp + 60))
+        );
+
+        vm.expectEmit(true, true, true, true);
+        emit EigenMatchHook.SettlementConsumed(poolId, trader, bundleId, 5 ether, 0);
+        hook.invokeBeforeSwap(trader, poolKey, swapParams, "");
+
+        EigenMatchHook.FeeLedgerEntry memory entry = hook.getFeeLedger(trader);
+        assertEq(entry.matchedVolume, 5 ether);
     }
 
     function testProcessBundleRejectsPoolNotEnabled() public {

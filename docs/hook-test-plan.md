@@ -17,9 +17,9 @@ Status legend: `[ ]` pending, `[~]` in progress, `[x]` implemented.
 
 ## Unit tests (U01–U40)
 
-1. `[ ] U01 – Hook permissions match README expectations (only beforeSwap true).`
-2. `[ ] U02 – Constructor reverts when owner is zero address.`
-3. `[ ] U03 – Constructor reverts when settlement executor is zero.`
+1. `[x] U01 – Hook permissions match README expectations (only beforeSwap true).`
+2. `[x] U02 – Constructor reverts when owner is zero address.`
+3. `[x] U03 – Constructor reverts when settlement executor is zero.`
 4. `[x] U04 – \`setSettlementExecutor\` only callable by owner.`
 5. `[x] U05 – \`setSettlementExecutor\` rejects zero address.`
 6. `[x] U06 – \`enablePool\` rejects \`maxSettlementDelay == 0\`.`
@@ -43,12 +43,12 @@ Status legend: `[ ]` pending, `[~]` in progress, `[x]` implemented.
 24. `[x] U24 – \`beforeSwap\` reverts with \`PoolIsPaused\` when pool paused.`
 25. `[x] U25 – \`beforeSwap\` reverts with \`SettlementExpired\` when queued settlement expired.`
 26. `[x] U26 – \`beforeSwap\` consumes settlement and deletes storage.`
-27. `[ ] U27 – `beforeSwap` emits `SettlementConsumed` with correct payload.`
+27. `[x] U27 – `beforeSwap` emits `SettlementConsumed` with correct payload.`
 28. `[x] U28 – Fee ledger accumulates matched volume + feeSaved correctly after each consumption.`
 29. `[x] U29 – Multiple settlements for same trader overwrite pending delta but fee ledger only updates upon consumption.`
-30. `[ ] U30 – \`processSettlementBundle\` emits \`BundleProcessed\` totals for sums of fees and matched amounts.`
+30. `[x] U30 – \`processSettlementBundle\` emits \`BundleProcessed\` totals for sums of fees and matched amounts.`
 31. `[x] U31 – \`processSettlementBundle\` handles multiple traders with different deltas.`
-32. `[ ] U32 – \`_absInt128\` returns correct magnitude for positive + negative numbers.`
+32. `[x] U32 – \`_absInt128\` returns correct magnitude for positive + negative numbers.`
 33. `[x] U33 – \`_toInt128\` reverts when value exceeds int128 bounds.`
 34. `[x] U34 – \`setPoolPaused\` onlyOwner guard.`
 35. `[x] U35 – \`setPoolPaused\` emits \`PoolPaused\`.`
