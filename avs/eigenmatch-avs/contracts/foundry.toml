@@ -2,19 +2,23 @@
 src = "src"
 test = "test"
 out = "out"
-libs = ["../.devkit/contracts/lib"]
+libs = []
 remappings = [
-    "forge-std/=../.devkit/contracts/lib/forge-std/src/",
-    "@eigenlayer-middleware/=../.devkit/contracts/lib/eigenlayer-middleware/",
-    "@eigenlayer-contracts/=../.devkit/contracts/lib/eigenlayer-middleware/lib/eigenlayer-contracts/",
-    "@openzeppelin/=../.devkit/contracts/lib/eigenlayer-middleware/lib/openzeppelin-contracts/",
-    "@openzeppelin-upgrades/=../.devkit/contracts/lib/eigenlayer-middleware/lib/openzeppelin-contracts-upgradeable/",
+    "forge-std=/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts/lib/forge-std/src/",
+    "@eigenlayer-middleware=/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts/lib/eigenlayer-middleware/",
+    "@eigenlayer-contracts=/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts/lib/eigenlayer-middleware/lib/eigenlayer-contracts/",
+    "@openzeppelin=/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts/lib/eigenlayer-middleware/lib/openzeppelin-contracts/",
+    "@openzeppelin-upgrades=/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts/lib/eigenlayer-middleware/lib/openzeppelin-contracts-upgradeable/",
     "@project/=src/"
 ]
 solc_version = "0.8.27"
 optimizer = true
 optimizer_runs = 200
 via_ir = false
+allow_paths = ["/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts"]
+fs_permissions = [
+    { access = "read", path = "/Users/najnomics/november/NOSA/EigenMatch-CoW-Hook/avs/eigenmatch-avs/.devkit/contracts" }
+]
 
 [fmt]
 line_length = 120
