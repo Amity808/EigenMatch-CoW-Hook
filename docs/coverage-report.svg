@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="170" viewBox="0 0 820 170" role="img" aria-labelledby="title desc">
+  <title id="title">EigenMatch Hook Coverage</title>
+  <desc id="desc">Line, statement, branch, and function coverage for EigenMatchHook.sol and tests</desc>
+  <style>
+    .bg { fill: #0b0f14; }
+    .table { fill: #111821; stroke: #7ac5ff; stroke-width: 1.2; }
+    .hline { stroke: #7ac5ff; stroke-width: 1.2; }
+    .vline { stroke: #7ac5ff; stroke-width: 1.2; }
+    .text { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 14px; fill: #e8f4ff; }
+    .header { font-weight: 700; }
+    .green { fill: #38d37a; }
+    .muted { fill: #9bb3c9; }
+  </style>
+  <rect class="bg" x="0" y="0" width="820" height="170" rx="8" />
+  <rect class="table" x="18" y="18" width="784" height="134" rx="6" />
+  <line class="hline" x1="18" y1="50" x2="802" y2="50" />
+  <line class="hline" x1="18" y1="82" x2="802" y2="82" />
+  <line class="hline" x1="18" y1="114" x2="802" y2="114" />
+  <line class="vline" x1="180" y1="18" x2="180" y2="152" />
+  <line class="vline" x1="320" y1="18" x2="320" y2="152" />
+  <line class="vline" x1="480" y1="18" x2="480" y2="152" />
+  <line class="vline" x1="640" y1="18" x2="640" y2="152" />
+
+  <text class="text header" x="40" y="42">File</text>
+  <text class="text header" x="200" y="42">% Lines</text>
+  <text class="text header" x="350" y="42">% Statements</text>
+  <text class="text header" x="510" y="42">% Branches</text>
+  <text class="text header" x="680" y="42">% Funcs</text>
+
+  <text class="text" x="28" y="74">src/EigenMatchHook.sol</text>
+  <text class="text green" x="210" y="74">100.00% (96/96)</text>
+  <text class="text green" x="360" y="74">98.21% (110/112)</text>
+  <text class="text green" x="520" y="74">89.47% (17/19)</text>
+  <text class="text green" x="690" y="74">100.00% (17/17)</text>
+
+  <text class="text" x="28" y="106">test/EigenMatchHook.t.sol</text>
+  <text class="text green" x="210" y="106">100.00% (3/3)</text>
+  <text class="text green" x="360" y="106">100.00% (3/3)</text>
+  <text class="text green" x="520" y="106">100.00% (0/0)</text>
+  <text class="text green" x="690" y="106">100.00% (1/1)</text>
+
+  <text class="text" x="28" y="138">Total</text>
+  <text class="text green" x="210" y="138">100.00% (99/99)</text>
+  <text class="text green" x="360" y="138">98.26% (113/115)</text>
+  <text class="text green" x="520" y="138">89.47% (17/19)</text>
+  <text class="text green" x="690" y="138">100.00% (18/18)</text>
+</svg>
+
